@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - SF Collectionzone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">SF Collectionzone - Admin Panel</h2>
+        
+        <form id="productForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium">Product Ka Naam:</label>
+                <input type="text" id="pName" required placeholder="e.g. Mens Watch" class="w-full border p-2 rounded mt-1">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Qeemat (Price in Rs):</label>
+                <input type="text" id="pPrice" required placeholder="e.g. 1500" class="w-full border p-2 rounded mt-1">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Product Image Link (URL):</label>
+                <input type="url" id="pImg" required placeholder="https://..." class="w-full border p-2 rounded mt-1">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Short Description:</label>
+                <input type="text" id="pDesc" placeholder="Behtareen quality product" class="w-full border p-2 rounded mt-1">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">WhatsApp Number (bina + ke):</label>
+                <input type="text" id="pPhone" placeholder="923001234567" class="w-full border p-2 rounded mt-1">
+            </div>
+
+            <button type="button" onclick="generateCode()" class="w-full bg-blue-600 text-white py-2 rounded font-semibold hover:bg-blue-700">
+                Code Generate Karain
+            </button>
+        </form>
+
+        <!-- Output Box -->
+        <div id="outputArea" class="mt-6 hidden">
+            <h3 class="font-bold text-gray-700 mb-2">Aap Ka Naya Product Code:</h3>
+            <textarea id="generatedCode" rows="6" class="w-full border p-2 bg-gray-50 text-sm font-mono rounded" readonly></textarea>
+            <button onclick="copyCode()" class="mt-2 bg-green-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-green-700">
+                Code Copy Karain
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function generateCode() {
+            const name = document.getElementById('pName').value;
+            const price = document.getElementById('pPrice').value;
+            const img = document.getElementById('pImg').value;
+            const desc = document.getElementById('pDesc').value || 'Aala quality product.';
+            const phone = document.getElementById('pPhone').value || '923000000000';
+
+            const html = `
+            <!-- Product Card -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+                <img src="${img}" alt="${name}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h4 class="font-bold text-lg mb-1">${name}</h4>
+                    <p class="text-gray-600 text-sm mb-3">${desc}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-blue-700 font-bold text-lg">Rs. ${price}</span>
+                        <a href="https://wa.me/${phone}?text=Mujhe%20${encodeURIComponent(name)}%20kharidna%20ha" class="bg-green-500 text-white text-xs px-3 py-2 rounded font-semibold hover:bg-green-600">Buy on WhatsApp</a>
+                    </div>
+                </div>
+            </div>`;
+
+            document.getElementById('generatedCode').value = html;
+            document.getElementById('outputArea').classList.remove('hidden');
+        }
+
+        function copyCode() {
+            const copyText = document.getElementById("generatedCode");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Code copy ho gaya! Ab ise index.html mein paste kar dein.");
+        }
+    </script>
+
+</body>
+</html>
